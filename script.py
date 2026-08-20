@@ -7,6 +7,7 @@ import matplotlib
 matplotlib.use('Agg')  # Força o matplotlib a gerar imagens em segundo plano na nuvem
 
 import os
+import time
 import requests
 import json
 import pandas as pd
@@ -22,30 +23,46 @@ if os.environ.get('COLAB_RELEASE_TAG'):
 
 def obter_dados_ibge(url_api):
     """
-    Consome a API SIDRA do IBGE simulando um navegador real completo (Headers).
-    Isso impede que os servidores do IBGE bloqueiem o GitHub Actions.
+    Consome a API SIDRA utilizando uma sessão persistente com lógica de 
+    repetição para contornar o bloqueio HTTP 403 do firewall do IBGE.
     """
+    session = requests.Session()
+    
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
         'Accept': 'application/json, text/plain, */*',
         'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
-        'Connection': 'keep-alive'
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Referer': 'https://sidra.ibge.gov.br/',
+        'Origin': 'https://sidra.ibge.gov.br',
+        'Connection': 'keep-alive',
+        'Cache-Control': 'max-age=0'
     }
     
-    resposta = requests.get(url_api, headers=headers, timeout=30)
+    max_tentativas = 5
+    atraso = 3  # Segundos de espera entre falhas
     
-    if resposta.status_code != 200:
-        raise Exception(f"Erro na API do IBGE: Status HTTP {resposta.status_code}")
+    for tentativa in range(max_tentativas):
+        try:
+            resposta = session.get(url_api, headers=headers, timeout=45)
+            
+            if resposta.status_code == 200:
+                dados_brutos = resposta.json()
+                df = pd.DataFrame(dados_brutos[1:], columns=dados_brutos)
+                return df
+                
+            print(f"[Tentativa {tentativa + 1}/{max_tentativas}] Servidor do IBGE retornou HTTP {resposta.status_code}. Aguardando para tentar novamente...")
+        except Exception as e:
+            print(f"[Tentativa {tentativa + 1}/{max_tentativas}] Conexão falhou: {str(e)}")
+            
+        time.sleep(atraso)
+        atraso *= 2  # Aumenta gradativamente o tempo de espera (Backoff)
         
-    dados_brutos = resposta.json()
-    
-    # O formato nativo do SIDRA traz o nome das colunas na primeira linha
-    df = pd.DataFrame(dados_brutos[1:], columns=dados_brutos)
-    return df
+    raise Exception("Não foi possível coletar os dados do IBGE devido ao bloqueio persistente do servidor.")
 
 # --- 1. Carga e Higienização das Variáveis (Via API SIDRA) ---
 
-# URLs corrigidas utilizando URL Encoding (%5Ball%5D representa os colchetes da API)
+# URLs tratadas com URL Encoding (%5Ball%5D representa os colchetes requisitados pela API)
 url_renda = "https://ibge.gov.br"
 url_educacao = "https://ibge.gov.br"
 
