@@ -1,38 +1,35 @@
 # Análise de Tendência Socioeconômica: Renda Média vs. Alfabetização com Python (IBGE)
 
-<p align="left">
-  <img src="https://shields.io" alt="GitHub Last Commit">
-  <img src="https://shields.io" alt="Python Version">
-  <img src="https://shields.io" alt="License">
-</p>
+[![Last Commit](https://shields.io)](https://github.com)
+[![Python Version](https://shields.io)](https://github.com)
+[![License](https://shields.io)](https://github.com)
 
-Este projeto analisa o impacto da renda per capita na alfabetização dos estados brasileiros, utilizando dados do IBGE e processamento em nuvem (CI/CD).
+Este projeto analisa o impacto da renda per capita domiciliar na alfabetização dos estados brasileiros, utilizando dados do IBGE e pipeline CI/CD na nuvem.
 
 ---
 
 ## 📊 Visualização dos Dados
 
-O gráfico cruza renda média (eixo X) com taxa de alfabetização (eixo Y), com linha de tendência e agrupamento regional por vulnerabilidade social.
+O gráfico abaixo mostra a relação entre renda média (eixo X) e taxa de alfabetização (eixo Y), com cores indicando o Índice de Vulnerabilidade Social.
 
-![Análise de Renda vs Alfabetização](grafico_socioeconomico.png?v=3)
+![Análise de Renda vs Alfabetização](https://githubusercontent.com)
 
 ---
 
-## 🔍 Análise do Gráfico
+## 🔍 Análise Avançada do Gráfico
 
-*   **Curva de Tendência (OLS):** Correlação linear positiva clara; maior renda implica maior alfabetização.
-*   **Estratificação Social:**
-    *   **Alta Vulnerabilidade (Vermelho):** Baixa renda/educação.
+*   **Tendência (OLS):** Correlação linear positiva, mostrando que maior renda per capita está associada a maiores taxas de alfabetização.
+*   **Vulnerabilidade:**
+    *   **Alta (Vermelho):** Baixa renda e alfabetização (quadrante inferior esquerdo).
     *   **Transição (Amarelo):** Ponto de inflexão.
-    *   **Consolidação (Verde):** Alta renda/educação.
-*   **Controle de Densidade:** Mapeamento preciso de *outliers* regionais.
+    *   **Consolidação (Verde):** Alta renda e alfabetização estável (quadrante superior direito).
 
 ---
 
 ## 🛠️ Arquitetura Tecnológica
 
-*   **Pandas:** Manipulação de dados e limpeza.
-*   **NumPy:** Cálculo de percentis e vulnerabilidade.
-*   **Seaborn/Matplotlib:** Visualização e renderização gráfica.
-*   **SciPy:** Validação estatística (Correlação de Pearson).
-*   **GitHub Actions:** Automação do pipeline na nuvem.
+*   **Pandas:** Manipulação e limpeza dos dados brutos.
+*   **NumPy:** Cálculo de percentis e intervalos de vulnerabilidade social.
+*   **Seaborn & Matplotlib:** Geração do gráfico de dispersão com alta resolução (300 dpi).
+*   **SciPy:** Validação estatística (correlação de Pearson).
+*   **GitHub Actions:** Automação de pipeline na nuvem.
