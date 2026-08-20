@@ -15,7 +15,7 @@ Clique no botão abaixo para abrir e rodar a análise de dados completa diretame
 ## Visualização dos Dados
 O gráfico cruza a renda média per capita mensal (eixo X) com a taxa de alfabetização (eixo Y), evidenciando a relação entre infraestrutura econômica e desenvolvimento social.
 
-![Análise de Renda vs Alfabetização](grafico_socioeconomico.png)
+![Análise de Renda vs Alfabetização](grafico_socioeconomico.png?v=2)
 
 ---
 
