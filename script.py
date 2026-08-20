@@ -6,6 +6,7 @@
 import matplotlib
 matplotlib.use('Agg')  # Força o matplotlib a gerar imagens em segundo plano na nuvem
 
+import os
 import requests
 import json
 import pandas as pd
@@ -14,12 +15,28 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from scipy import stats
 
+# Configuração essencial para o Google Colab funcionar com um clique
+if os.environ.get('COLAB_RELEASE_TAG'):
+    print("Ambiente Colab detectado. Instalando dependências ausentes...")
+    os.system('pip install -q pandas numpy seaborn matplotlib scipy requests')
+
 def obter_dados_ibge(url_api):
     """
-    Consome a API SIDRA do IBGE utilizando a biblioteca requests.
+    Consome a API SIDRA do IBGE simulando um navegador real completo (Headers).
+    Isso impede que os servidores do IBGE bloqueiem o GitHub Actions.
     """
-    headers = {'User-Agent': 'Mozilla/5.0'}
-    resposta = requests.get(url_api, headers=headers)
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Connection': 'keep-alive'
+    }
+    
+    resposta = requests.get(url_api, headers=headers, timeout=30)
+    
+    if resposta.status_code != 200:
+        raise Exception(f"Erro na API do IBGE: Status HTTP {resposta.status_code}")
+        
     dados_brutos = resposta.json()
     
     # O formato nativo do SIDRA traz o nome das colunas na primeira linha
@@ -28,7 +45,7 @@ def obter_dados_ibge(url_api):
 
 # --- 1. Carga e Higienização das Variáveis (Via API SIDRA) ---
 
-# URLs corrigidas utilizando URL Encoding para evitar erros de caractere especial ([all] virou %5Ball%5D)
+# URLs corrigidas utilizando URL Encoding (%5Ball%5D representa os colchetes da API)
 url_renda = "https://ibge.gov.br"
 url_educacao = "https://ibge.gov.br"
 
