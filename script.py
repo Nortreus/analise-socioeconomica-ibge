@@ -2,7 +2,7 @@
 # Análise de Tendência Socioeconômica (IBGE)
 # Autor: Rafael Silveira Assunção
 # =====================================================================
-
+ 
 import matplotlib
 matplotlib.use('Agg')  # Força o matplotlib a gerar imagens em segundo plano na nuvem
 
