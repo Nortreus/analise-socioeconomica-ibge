@@ -3,31 +3,33 @@
 # Autor: Rafael Silveira Assunção
 # =====================================================================
 
-import urllib.request
+import matplotlib
+matplotlib.use('Agg')  # Força o matplotlib a gerar imagens em segundo plano na nuvem
+
+import requests
 import json
 import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-import matplotlib
-matplotlib.use('Agg') 
 from scipy import stats
 
 def obter_dados_ibge(url_api):
     """
-    Consome a API SIDRA do IBGE tratando o retorno direto na memória.
-    O formato nativo do SIDRA traz o nome das colunas na primeira linha.
+    Consome a API SIDRA do IBGE utilizando a biblioteca requests,
+    que trata corretamente caracteres especiais e colchetes em URLs.
     """
-    req = urllib.request.Request(url_api, headers={'User-Agent': 'Mozilla/5.0'})
-    with urllib.request.urlopen(req) as resposta:
-        dados_brutos = json.loads(resposta.read().decode('utf-8'))
+    headers = {'User-Agent': 'Mozilla/5.0'}
+    resposta = requests.get(url_api, headers=headers)
+    dados_brutos = resposta.json()
     
-    df = pd.DataFrame(dados_brutos[1:], columns=dados_brutos)
+    # O formato nativo do SIDRA traz o nome das colunas na primeira linha
+    df = pd.DataFrame(dados_brutos[1:], columns=dados_brutos[0])
     return df
 
 # --- 1. Carga e Higienização das Variáveis (Via API SIDRA) ---
 
-# Campanhas do IBGE (Censo/PNAD): Renda Per Capita e Alfabetização por Estado
+# URLs estruturadas para buscar Renda Per Capita e Alfabetização por Estado (Tabelas 6784 e 9543 do Censo/PNAD)
 url_renda = "https://ibge.gov.br[all]"
 url_educacao = "https://ibge.gov.br[all]"
 
@@ -51,8 +53,8 @@ dados_socio = dados_socio.dropna()
 
 # Classificação em 3 níveis (Baixo, Médio, Alto) baseada estritamente nos tercis da própria amostra
 tercis = np.percentile(dados_socio['Renda_Per_Capita'], [33.3, 66.6])
-dados_socio['Vulnerabilidade'] = np.where(dados_socio['Renda_Per_Capita'] <= tercis, 'Alta',
-                                  np.where(dados_socio['Renda_Per_Capita'] <= tercis, 'Média', 'Baixa'))
+dados_socio['Vulnerabilidade'] = np.where(dados_socio['Renda_Per_Capita'] <= tercis[0], 'Alta',
+                                  np.where(dados_socio['Renda_Per_Capita'] <= tercis[1], 'Média', 'Baixa'))
 
 # Trava a ordem categórica para o Seaborn desenhar a legenda na sequência social correta
 dados_socio['Vulnerabilidade'] = pd.Categorical(dados_socio['Vulnerabilidade'], categories=['Alta', 'Média', 'Baixa'], ordered=True)
