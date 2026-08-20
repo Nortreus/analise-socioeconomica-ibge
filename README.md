@@ -12,7 +12,7 @@ Este projeto analisa o impacto da renda per capita domiciliar na alfabetização
 
 O gráfico abaixo mostra a relação entre renda média (eixo X) e taxa de alfabetização (eixo Y), com cores indicando o Índice de Vulnerabilidade Social.
 
-![Análise de Renda vs Alfabetização](https://githubusercontent.com)
+![Análise de Renda vs Alfabetização](grafico_socioeconomico.png?v=3)
 
 ---
 
