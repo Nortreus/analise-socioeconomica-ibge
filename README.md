@@ -1,35 +1,35 @@
 # Análise de Tendência Socioeconômica: Renda Média vs. Alfabetização com Python (IBGE)
 
-[![Last Commit](https://shields.io)](https://github.com)
-[![Python Version](https://shields.io)](https://github.com)
-[![License](https://shields.io)](https://github.com)
+**Ambiente:** Python 3.10 | **Status:** Automatizado via GitHub Actions | **Licença:** MIT
 
-Este projeto analisa o impacto da renda per capita domiciliar na alfabetização dos estados brasileiros, utilizando dados do IBGE e pipeline CI/CD na nuvem.
+Este projeto avalia o impacto direto dos indicadores econômicos no desenvolvimento educacional das unidades federativas brasileiras, utilizando microdados reais estruturados para mapear a relação entre renda per capita domiciliar e a alfabetização básica.
+
+Toda a infraestrutura de execução foi construída para rodar na nuvem em um pipeline CI/CD de backend, processando os dados e gerando novos outputs gráficos.
 
 ---
 
 ## 📊 Visualização dos Dados
 
-O gráfico abaixo mostra a relação entre renda média (eixo X) e taxa de alfabetização (eixo Y), com cores indicando o Índice de Vulnerabilidade Social.
+O gráfico cruza a renda média per capita mensal (eixo X) com a taxa de alfabetização da população (eixo Y).
 
-![Análise de Renda vs Alfabetização](grafico_socioeconomico.png?v=3)
+![Análise de Renda vs Alfabetização](grafico_socioeconomico.png?v=2)
 
 ---
 
-## 🔍 Análise Avançada do Gráfico
+## 🔍 Análise do Gráfico
 
-*   **Tendência (OLS):** Correlação linear positiva, mostrando que maior renda per capita está associada a maiores taxas de alfabetização.
-*   **Vulnerabilidade:**
-    *   **Alta (Vermelho):** Baixa renda e alfabetização (quadrante inferior esquerdo).
-    *   **Transição (Amarelo):** Ponto de inflexão.
-    *   **Consolidação (Verde):** Alta renda e alfabetização estável (quadrante superior direito).
+*   **Comportamento da Curva (Mínimos Quadrados OLS):** Comprova uma forte correlação linear positiva, onde o aumento da renda per capita está associado a uma taxa de alfabetização mais elevada.
+*   **Estratificação Social (Vulnerabilidade):**
+    *   **Alta Vulnerabilidade (Vermelho):** Estados com menores faixas de renda e alfabetização.
+    *   **Zona de Transição (Amarelo):** Ponto de inflexão socioeconômica.
+    *   **Consolidação Social (Verde):** Estados com maiores indicadores educacionais e de renda.
 
 ---
 
 ## 🛠️ Arquitetura Tecnológica
 
-*   **Pandas:** Manipulação e limpeza dos dados brutos.
-*   **NumPy:** Cálculo de percentis e intervalos de vulnerabilidade social.
-*   **Seaborn & Matplotlib:** Geração do gráfico de dispersão com alta resolução (300 dpi).
-*   **SciPy:** Validação estatística (correlação de Pearson).
-*   **GitHub Actions:** Automação de pipeline na nuvem.
+*   **Pandas:** Manipulação de dados estruturados e tratamento de nulos.
+*   **NumPy:** Cálculo de percentis e distribuição de vulnerabilidade.
+*   **Seaborn & Matplotlib:** Visualização e renderização gráfica de alta resolução.
+*   **SciPy:** Análise estatística de correlação linear (Pearson).
+*   **GitHub Actions:** Automação do pipeline CI/CD na nuvem.
