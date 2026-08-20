@@ -5,8 +5,10 @@ Este projeto analisa o impacto da renda na educação brasileira usando dados da
 ---
 
 ## 🚀 Execução Direta (Sem Instalação)
-Você pode executar o script, recalcular regressões e visualizar o gráfico online usando o console Pyodide:
-[Executar Projeto Online](https://pyodide.org)
+
+Clique no botão abaixo para abrir e rodar a análise de dados completa diretamente pelo seu navegador utilizando o ambiente em nuvem do Google Colab:
+
+[![Abrir no Colab](https://google.com)](https://google.com)
 
 ---
 
