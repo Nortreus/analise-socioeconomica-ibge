@@ -9,6 +9,8 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg') 
 from scipy import stats
 
 def obter_dados_ibge(url_api):
