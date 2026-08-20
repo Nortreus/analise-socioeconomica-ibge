@@ -1,32 +1,38 @@
 # Análise de Tendência Socioeconômica: Renda Média vs. Alfabetização com Python (IBGE)
 
-![GitHub Last Commit](https://shields.io)
-![Python Version](https://shields.io)
-![License](https://shields.io)
+<p align="left">
+  <img src="https://shields.io" alt="GitHub Last Commit">
+  <img src="https://shields.io" alt="Python Version">
+  <img src="https://shields.io" alt="License">
+</p>
 
-Este projeto analisa a relação entre renda per capita e alfabetização nas unidades federativas brasileiras, utilizando dados do IBGE e ferramentas de automação (CI/CD) para processamento e geração de gráficos.
+Este projeto analisa o impacto da renda per capita na alfabetização dos estados brasileiros, utilizando dados do IBGE e processamento em nuvem (CI/CD).
 
 ---
 
 ## 📊 Visualização dos Dados
 
-O gráfico cruza renda média (X) com taxa de alfabetização (Y), segmentado pelo Índice de Vulnerabilidade Social.
+O gráfico cruza renda média (eixo X) com taxa de alfabetização (eixo Y), com linha de tendência e agrupamento regional por vulnerabilidade social.
 
-![Análise de Renda vs Alfabetização](grafico_socioeconomico.png?v=2)
+![Análise de Renda vs Alfabetização](grafico_socioeconomico.png?v=3)
 
 ---
 
-## 🔍 Análise Avançada do Gráfico
+## 🔍 Análise do Gráfico
 
-*   **Curva de Tendência (OLS):** Correlação linear positiva entre renda e alfabetização.
-*   **Estrutura de Vulnerabilidade:** Classificação em Alta (Vermelho), Transição (Amarelo) e Consolidação (Verde).
-*   **Controle de Densidade:** Identificação de outliers regionais.
+*   **Curva de Tendência (OLS):** Correlação linear positiva clara; maior renda implica maior alfabetização.
+*   **Estratificação Social:**
+    *   **Alta Vulnerabilidade (Vermelho):** Baixa renda/educação.
+    *   **Transição (Amarelo):** Ponto de inflexão.
+    *   **Consolidação (Verde):** Alta renda/educação.
+*   **Controle de Densidade:** Mapeamento preciso de *outliers* regionais.
 
 ---
 
 ## 🛠️ Arquitetura Tecnológica
 
-*   **Pandas & NumPy:** Processamento de dados e cálculo de tercis.
-*   **Seaborn & Matplotlib:** Visualização de dados (DPI 300).
-*   **SciPy (`scipy.stats`):** Correlação de Pearson e relevância estatística.
-*   **GitHub Actions:** Automação de pipeline na nuvem.
+*   **Pandas:** Manipulação de dados e limpeza.
+*   **NumPy:** Cálculo de percentis e vulnerabilidade.
+*   **Seaborn/Matplotlib:** Visualização e renderização gráfica.
+*   **SciPy:** Validação estatística (Correlação de Pearson).
+*   **GitHub Actions:** Automação do pipeline na nuvem.
