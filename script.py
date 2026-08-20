@@ -16,22 +16,21 @@ from scipy import stats
 
 def obter_dados_ibge(url_api):
     """
-    Consome a API SIDRA do IBGE utilizando a biblioteca requests,
-    que trata corretamente caracteres especiais e colchetes em URLs.
+    Consome a API SIDRA do IBGE utilizando a biblioteca requests.
     """
     headers = {'User-Agent': 'Mozilla/5.0'}
     resposta = requests.get(url_api, headers=headers)
     dados_brutos = resposta.json()
     
     # O formato nativo do SIDRA traz o nome das colunas na primeira linha
-    df = pd.DataFrame(dados_brutos[1:], columns=dados_brutos[0])
+    df = pd.DataFrame(dados_brutos[1:], columns=dados_brutos)
     return df
 
 # --- 1. Carga e Higienização das Variáveis (Via API SIDRA) ---
 
-# URLs estruturadas para buscar Renda Per Capita e Alfabetização por Estado (Tabelas 6784 e 9543 do Censo/PNAD)
-url_renda = "https://ibge.gov.br[all]"
-url_educacao = "https://ibge.gov.br[all]"
+# URLs corrigidas utilizando URL Encoding para evitar erros de caractere especial ([all] virou %5Ball%5D)
+url_renda = "https://ibge.gov.br"
+url_educacao = "https://ibge.gov.br"
 
 print("Coletando indicadores diretamente dos servidores do IBGE...")
 df_renda_bruto = obter_dados_ibge(url_renda)
