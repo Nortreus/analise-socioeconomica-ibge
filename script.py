@@ -23,6 +23,11 @@ if not os.path.exists(caminho_dados):
 print("Carregando base de contingência local do IBGE...")
 dados_socio = pd.read_csv(caminho_dados)
 
+# CORREÇÃO DO BUG: Força as colunas a virarem números (floats), limpando espaços ou sujeiras no texto
+dados_socio['Renda_Per_Capita'] = pd.to_numeric(dados_socio['Renda_Per_Capita'], errors='coerce')
+dados_socio['Taxa_Alfabetizacao'] = pd.to_numeric(dados_socio['Taxa_Alfabetizacao'], errors='coerce')
+dados_socio = dados_socio.dropna() # Remove qualquer linha que tenha falhado na conversão
+
 # --- 2. Modelagem e Categorização Dinâmica ---
 
 # Classificação em 3 níveis (Baixo, Médio, Alto) baseada nos tercis da amostra
@@ -54,19 +59,18 @@ sns.set_theme(style="whitegrid")
 # Define o semáforo social: Alta vulnerabilidade (vermelho) -> Baixa (verde)
 paleta_cores = {'Alta': '#e74c3c', 'Média': '#f1c40f', 'Baixa': '#2ecc71'}
 
-# Jitter controlado para evitar empilhamento artificial de estados próximos
-sns.stripplot(
+# Gráfico de Dispersão (Agora sim os eixos vão se espalhar corretamente do zero aos maiores valores)
+sns.scatterplot(
     data=dados_socio, 
     x='Renda_Per_Capita', 
     y='Taxa_Alfabetizacao', 
     hue='Vulnerabilidade', 
     palette=paleta_cores, 
-    size=9, 
-    alpha=0.85, 
-    jitter=0.15
+    s=100, # Aumentei um pouco o tamanho dos pontos para melhor leitura
+    alpha=0.85
 )
 
-# Ajuste da reta de regressão OLS cortando a dispersão
+# Ajuste da reta de regressão OLS cortando a dispersão de ponta a ponta
 sns.regplot(
     data=dados_socio, 
     x='Renda_Per_Capita', 
@@ -84,6 +88,6 @@ plt.legend(title='Vulnerabilidade Social', loc='lower right', frameon=True)
 
 plt.tight_layout()
 
-# Salva a imagem para o README renderizar direto na raiz do repositório
+# Salva a imagem corrigida para o README
 plt.savefig('grafico_socioeconomico.png', dpi=300)
 print("\nGráfico exportado com sucesso como 'grafico_socioeconomico.png'!")
